@@ -115,7 +115,6 @@ func resourceAwsSpotInstanceRequestCreate(d *schema.ResourceData, meta interface
 			ImageId:             instanceOpts.ImageID,
 			InstanceType:        instanceOpts.InstanceType,
 			KeyName:             instanceOpts.KeyName,
-			Placement:           instanceOpts.SpotPlacement,
 			SecurityGroupIds:    instanceOpts.SecurityGroupIDs,
 			SecurityGroups:      instanceOpts.SecurityGroups,
 			SubnetId:            instanceOpts.SubnetID,
@@ -130,6 +129,11 @@ func resourceAwsSpotInstanceRequestCreate(d *schema.ResourceData, meta interface
 
 	if v, ok := d.GetOk("launch_group"); ok {
 		spotOpts.LaunchGroup = aws.String(v.(string))
+	}
+
+	// Placement GroupName can only be specified when instanceInterruptionBehavior is not set to 'stop'
+	if v, exists := d.GetOkExists("instance_interruption_behaviour"); v == "terminate" || !exists {
+		spotOpts.LaunchSpecification.Placement = instanceOpts.SpotPlacement
 	}
 
 	// Make the spot instance request
