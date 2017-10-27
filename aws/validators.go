@@ -1652,7 +1652,7 @@ func validateCognitoRoles(v map[string]interface{}, k string) (errors []error) {
 	return
 }
 
-func validateInstanceInterruptionBehavior (v interface{}, k string) (ws []string, errors []error) {
+func validateInstanceInterruptionBehavior(v interface{}, k string) (ws []string, errors []error) {
 	value := v.(string)
 
 	validBehaviors := map[string]bool{

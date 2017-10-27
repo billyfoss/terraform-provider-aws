@@ -79,10 +79,10 @@ func resourceAwsSpotInstanceRequest() *schema.Resource {
 				ForceNew: true,
 			}
 			s["instance_interruption_behavior"] = &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
-				Default:  "terminate",
-				ForceNew: true,
+				Type:         schema.TypeString,
+				Optional:     true,
+				Default:      "terminate",
+				ForceNew:     true,
 				ValidateFunc: validateInstanceInterruptionBehavior,
 			}
 			return s
