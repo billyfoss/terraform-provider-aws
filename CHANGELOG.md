@@ -1,23 +1,43 @@
 ## 1.1.1 (Unreleased)
 
+INTERNAL:
+
+* Remove `id` fields from schema definitions [GH-1626]
+
 FEATURES:
 
 * **New Resource:** `aws_servicecatalog_portfolio` [GH-1694]
+* **New Resource:** `aws_ses_domain_dkim` [GH-1786]
+* **New Resource:** `aws_cognito_identity_pool_roles_attachment` [GH-863]
+* **New Data Source:** `aws_nat_gateway` [GH-1294]
+* **New Data Source:** `aws_dynamodb_table` [GH-2062]
+* **New Data Source:** `aws_cloudtrail_service_account` [GH-1774]
 
 IMPROVEMENTS:
 
 * data-source/aws_security_group: add description [GH-1943]
 * resource/aws_cloudfront_distribution: Change the default minimum_protocol_version to TLSv1 [GH-1856]
-* Support SMS in SNS Topic Subscription protocols [GH-1813]
+* resource/aws_sns_topic: Support SMS in protocols [GH-1813]
+* resource/aws_spot_fleet_request: Add support for `tags` [GH-2042]
+* resource/aws_kinesis_firehose_delivery_stream: Add `s3_backup_mode` option [GH-1830]
+* resource/aws_elasticsearch_domain: Support VPC configuration [GH-1958]
+* resource/aws_alb_target_group: Add support for `target_type` [GH-1589]
+* resource/aws_sqs_queue: Add support for `tags` [GH-1987]
 
 BUG FIXES:
 
 * resource/aws_elasticache_parameter_group: Add missing return to retry logic [GH-1891]
 * resource/aws_batch_job_queue: Wait for update completion when disabling [GH-1892]
-* resource/aws_snapshot_create_volume_permission: Raise timeout to 10mins [GH-1894]
+* resource/aws_snapshot_create_volume_permission: Raise creation timeout to 10mins [GH-1894]
+* resource/aws_snapshot_create_volume_permission: Raise creation timeout to 20mins [GH-2049]
 * resource/aws_kms_alias: Retry creation on `NotFoundException` [GH-1896]
 * resource/aws_kms_key: Retry reading tags on `NotFoundException` [GH-1900]
 * resource/aws_db_snapshot: Raise creation timeout to 20mins [GH-1905]
+* resource/aws_lb: Allow assigning EIP to network LB [GH-1956]
+* resource/aws_s3_bucket: Retry tagging on OperationAborted [GH-2008]
+* resource/aws_cognito_identity_pool: Fixed refresh of providers [GH-2015]
+* resource/aws_elasticache_replication_group: Raise creation timeout to 50mins [GH-2048]
+* resource/aws_api_gateway_usag_plan: Fixed setting of rate_limit [GH-2076]
 
 ## 1.1.0 (October 16, 2017)
 
@@ -61,7 +81,7 @@ IMPROVEMENTS:
 * resource/aws_efs_file_system: Expose `dns_name` ([#1825](https://github.com/terraform-providers/terraform-provider-aws/issues/1825))
 * resource/aws_security_group+aws_security_group_rule: Add support for rule description ([#1587](https://github.com/terraform-providers/terraform-provider-aws/issues/1587))
 * resource/aws_emr_cluster: enable configuration of ebs root volume size ([#1375](https://github.com/terraform-providers/terraform-provider-aws/issues/1375))
-* resource/aws_aws_ami: Add `root_snapshot_id` attribute ([#1572](https://github.com/terraform-providers/terraform-provider-aws/issues/1572))
+* resource/aws_ami: Add `root_snapshot_id` attribute ([#1572](https://github.com/terraform-providers/terraform-provider-aws/issues/1572))
 * resource/aws_vpn_connection: Mark preshared keys as sensitive ([#1850](https://github.com/terraform-providers/terraform-provider-aws/issues/1850))
 * resource/aws_codedeploy_deployment_group: Support blue/green and in-place deployments with traffic control ([#1162](https://github.com/terraform-providers/terraform-provider-aws/issues/1162))
 * resource/aws_elb: Update ELB idle timeout to 4000s ([#1861](https://github.com/terraform-providers/terraform-provider-aws/issues/1861))
