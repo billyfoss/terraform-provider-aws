@@ -1740,3 +1740,19 @@ func validateDynamoDbTableAttributes(d *schema.ResourceDiff) error {
 
 	return nil
 }
+
+func validateInstanceInterruptionBehavior(v interface{}, k string) (ws []string, errors []error) {
+	value := v.(string)
+
+	validBehaviors := map[string]bool{
+		"stop":      true,
+		"terminate": true,
+	}
+
+	if _, ok := validBehaviors[value]; !ok {
+		errors = append(errors, fmt.Errorf(
+			"%q contains an invalid instance interruption behavior type %q. Valid behaviors are either %q or %q",
+			k, value, "stop", "terminate"))
+	}
+	return
+}

@@ -78,11 +78,12 @@ func resourceAwsSpotInstanceRequest() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			}
-			s["instance_interruption_behaviour"] = &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
-				Default:  "terminate",
-				ForceNew: true,
+			s["instance_interruption_behavior"] = &schema.Schema{
+				Type:         schema.TypeString,
+				Optional:     true,
+				Default:      "terminate",
+				ForceNew:     true,
+				ValidateFunc: validateInstanceInterruptionBehavior,
 			}
 			return s
 		}(),
@@ -100,7 +101,7 @@ func resourceAwsSpotInstanceRequestCreate(d *schema.ResourceData, meta interface
 	spotOpts := &ec2.RequestSpotInstancesInput{
 		SpotPrice: aws.String(d.Get("spot_price").(string)),
 		Type:      aws.String(d.Get("spot_type").(string)),
-		InstanceInterruptionBehavior: aws.String(d.Get("instance_interruption_behaviour").(string)),
+		InstanceInterruptionBehavior: aws.String(d.Get("instance_interruption_behavior").(string)),
 
 		// Though the AWS API supports creating spot instance requests for multiple
 		// instances, for TF purposes we fix this to one instance per request.
@@ -115,7 +116,6 @@ func resourceAwsSpotInstanceRequestCreate(d *schema.ResourceData, meta interface
 			ImageId:             instanceOpts.ImageID,
 			InstanceType:        instanceOpts.InstanceType,
 			KeyName:             instanceOpts.KeyName,
-			Placement:           instanceOpts.SpotPlacement,
 			SecurityGroupIds:    instanceOpts.SecurityGroupIDs,
 			SecurityGroups:      instanceOpts.SecurityGroups,
 			SubnetId:            instanceOpts.SubnetID,
@@ -130,6 +130,11 @@ func resourceAwsSpotInstanceRequestCreate(d *schema.ResourceData, meta interface
 
 	if v, ok := d.GetOk("launch_group"); ok {
 		spotOpts.LaunchGroup = aws.String(v.(string))
+	}
+
+	// Placement GroupName can only be specified when instanceInterruptionBehavior is not set to 'stop'
+	if v, exists := d.GetOkExists("instance_interruption_behavior"); v == "terminate" || !exists {
+		spotOpts.LaunchSpecification.Placement = instanceOpts.SpotPlacement
 	}
 
 	// Make the spot instance request
@@ -235,7 +240,7 @@ func resourceAwsSpotInstanceRequestRead(d *schema.ResourceData, meta interface{}
 	d.Set("launch_group", request.LaunchGroup)
 	d.Set("block_duration_minutes", request.BlockDurationMinutes)
 	d.Set("tags", tagsToMap(request.Tags))
-	d.Set("instance_interruption_behaviour", request.InstanceInterruptionBehavior)
+	d.Set("instance_interruption_behavior", request.InstanceInterruptionBehavior)
 
 	return nil
 }

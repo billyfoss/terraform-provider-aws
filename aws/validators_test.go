@@ -2521,3 +2521,50 @@ func TestValidateAmazonSideAsn(t *testing.T) {
 		}
 	}
 }
+
+func TestValidateInstanceInterruptionBehavior(t *testing.T) {
+	type testCases struct {
+		Value    string
+		ErrCount int
+	}
+
+	invalidCases := []testCases{
+		{
+			Value:    "incorrect",
+			ErrCount: 1,
+		},
+		{
+			Value:    "stopped",
+			ErrCount: 1,
+		},
+		{
+			Value:    "terminated",
+			ErrCount: 1,
+		},
+	}
+
+	for _, tc := range invalidCases {
+		_, errors := validateInstanceInterruptionBehavior(tc.Value, "types")
+		if len(errors) != tc.ErrCount {
+			t.Fatalf("Expected %q to trigger a validation error.", tc.Value)
+		}
+	}
+
+	validCases := []testCases{
+		{
+			Value:    "stop",
+			ErrCount: 0,
+		},
+		{
+			Value:    "terminate",
+			ErrCount: 0,
+		},
+	}
+
+	for _, tc := range validCases {
+		_, errors := validateInstanceInterruptionBehavior(tc.Value, "types")
+		if len(errors) != tc.ErrCount {
+			t.Fatalf("Expected %q not to trigger a validation error.", tc.Value)
+		}
+	}
+}
