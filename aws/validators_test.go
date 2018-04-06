@@ -2538,6 +2538,14 @@ func TestValidateInstanceInterruptionBehavior(t *testing.T) {
 			ErrCount: 1,
 		},
 		{
+			Value:    "hibernated",
+			ErrCount: 1,
+		},
+		{
+			Value:    "hibernates",
+			ErrCount: 1,
+		},
+		{
 			Value:    "terminated",
 			ErrCount: 1,
 		},
@@ -2553,6 +2561,10 @@ func TestValidateInstanceInterruptionBehavior(t *testing.T) {
 	validCases := []testCases{
 		{
 			Value:    "stop",
+			ErrCount: 0,
+		},
+		{
+			Value:    "hibernate",
 			ErrCount: 0,
 		},
 		{

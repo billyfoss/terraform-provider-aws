@@ -1746,13 +1746,14 @@ func validateInstanceInterruptionBehavior(v interface{}, k string) (ws []string,
 
 	validBehaviors := map[string]bool{
 		"stop":      true,
+		"hibernate": true,
 		"terminate": true,
 	}
 
 	if _, ok := validBehaviors[value]; !ok {
 		errors = append(errors, fmt.Errorf(
-			"%q contains an invalid instance interruption behavior type %q. Valid behaviors are either %q or %q",
-			k, value, "stop", "terminate"))
+			"%q contains an invalid instance interruption behavior type %q. Valid behaviors are %q, %q or %q",
+			k, value, "stop", "hibernate", "terminate"))
 	}
 	return
 }

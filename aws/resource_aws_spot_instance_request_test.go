@@ -393,6 +393,31 @@ func TestAccAWSSpotInstanceRequestStopInterrupt(t *testing.T) {
 	})
 }
 
+func TestAccAWSSpotInstanceRequestHibernateInterrupt(t *testing.T) {
+	var sir ec2.SpotInstanceRequest
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckAWSSpotInstanceRequestDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccAWSSpotInstanceRequestStopInterruptConfig(),
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckAWSSpotInstanceRequestExists(
+						"aws_spot_instance_request.foo", &sir),
+					resource.TestCheckResourceAttr(
+						"aws_spot_instance_request.foo", "spot_bid_status", "fulfilled"),
+					resource.TestCheckResourceAttr(
+						"aws_spot_instance_request.foo", "spot_request_state", "active"),
+					resource.TestCheckResourceAttr(
+						"aws_spot_instance_request.foo", "instance_interruption_behavior", "hibernate"),
+				),
+			},
+		},
+	})
+}
+
 func testAccAWSSpotInstanceRequestConfig(rInt int) string {
 	return fmt.Sprintf(`
 	resource "aws_key_pair" "debugging" {
