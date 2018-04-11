@@ -147,7 +147,7 @@ func resourceAwsSpotInstanceRequestCreate(d *schema.ResourceData, meta interface
 	}
 
 	// Placement GroupName can only be specified when instanceInterruptionBehavior is not set to 'stop'
-        // TODO: check if need SpotPlacement with hibernate
+	// TODO: check if need SpotPlacement with hibernate
 	if v, exists := d.GetOkExists("instance_interruption_behavior"); v == "terminate" || !exists {
 		spotOpts.LaunchSpecification.Placement = instanceOpts.SpotPlacement
 	}
