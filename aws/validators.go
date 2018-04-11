@@ -1745,9 +1745,9 @@ func validateInstanceInterruptionBehavior(v interface{}, k string) (ws []string,
 	value := v.(string)
 
 	validBehaviors := map[string]bool{
-		"stop":      true,
-		"hibernate": true,
-		"terminate": true,
+		ec2.InstanceInterruptionBehaviorStop:      true,
+		ec2.InstanceInterruptionBehaviorHibernate: true,
+		ec2.InstanceInterruptionBehaviorTerminate: true,
 	}
 
 	if _, ok := validBehaviors[value]; !ok {
