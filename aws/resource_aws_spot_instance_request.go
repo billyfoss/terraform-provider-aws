@@ -89,6 +89,7 @@ func resourceAwsSpotInstanceRequest() *schema.Resource {
 				  ec2.InstanceInterruptionBehaviorTerminate,
 				}, false),
 				Deprecated:   "Use instance_interruption_behavior instead.",
+			}
 			s["instance_interruption_behavior"] = &schema.Schema{
 				Type:         schema.TypeString,
 				Optional:     true,
@@ -98,6 +99,7 @@ func resourceAwsSpotInstanceRequest() *schema.Resource {
 				  ec2.InstanceInterruptionBehaviorStop,
 				  ec2.InstanceInterruptionBehaviorHibernate,
 				  ec2.InstanceInterruptionBehaviorTerminate,
+				}, false),
 			}
 			return s
 		}(),
