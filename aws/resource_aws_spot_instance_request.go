@@ -79,26 +79,26 @@ func resourceAwsSpotInstanceRequest() *schema.Resource {
 				ForceNew: true,
 			}
 			s["instance_interruption_behaviour"] = &schema.Schema{
-				Type:         schema.TypeString,
-				Optional:     true,
-				Default:      ec2.InstanceInterruptionBehaviorTerminate,
-				ForceNew:     true,
+				Type:     schema.TypeString,
+				Optional: true,
+				Default:  ec2.InstanceInterruptionBehaviorTerminate,
+				ForceNew: true,
 				ValidateFunc: validation.StringInSlice([]string{
-				  ec2.InstanceInterruptionBehaviorStop,
-				  ec2.InstanceInterruptionBehaviorHibernate,
-				  ec2.InstanceInterruptionBehaviorTerminate,
+					ec2.InstanceInterruptionBehaviorStop,
+					ec2.InstanceInterruptionBehaviorHibernate,
+					ec2.InstanceInterruptionBehaviorTerminate,
 				}, false),
-				Deprecated:   "Use instance_interruption_behavior instead.",
+				Deprecated: "Use instance_interruption_behavior instead.",
 			}
 			s["instance_interruption_behavior"] = &schema.Schema{
-				Type:         schema.TypeString,
-				Optional:     true,
-				Default:      ec2.InstanceInterruptionBehaviorTerminate,
-				ForceNew:     true,
+				Type:     schema.TypeString,
+				Optional: true,
+				Default:  ec2.InstanceInterruptionBehaviorTerminate,
+				ForceNew: true,
 				ValidateFunc: validation.StringInSlice([]string{
-				  ec2.InstanceInterruptionBehaviorStop,
-				  ec2.InstanceInterruptionBehaviorHibernate,
-				  ec2.InstanceInterruptionBehaviorTerminate,
+					ec2.InstanceInterruptionBehaviorStop,
+					ec2.InstanceInterruptionBehaviorHibernate,
+					ec2.InstanceInterruptionBehaviorTerminate,
 				}, false),
 			}
 			return s
